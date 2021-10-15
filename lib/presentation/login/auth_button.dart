@@ -5,24 +5,21 @@ class AuthButton extends StatelessWidget {
   final String buttonText;
   final Function onPressedCallback;
 
-  const AuthButton({
-    @required this.buttonText,
-    this.onPressedCallback
-  });
+  const AuthButton({@required this.buttonText, this.onPressedCallback});
 
-  @override 
+  @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return ElevatedButton(
       onPressed: onPressedCallback,
-      color: Colors.blue,
+      style: ElevatedButton.styleFrom(primary: Colors.blue),
       child: Container(
         height: 50.0,
         alignment: Alignment.center,
         child: Text(
-          buttonText, 
+          buttonText,
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white)
-        )
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     );
   }

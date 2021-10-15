@@ -39,7 +39,7 @@ class _InviteToChannelScreenState extends State<InviteToChannelScreen> {
       title: CirclesLocalizations.of(context).channelInviteTitle,
       action: Visibility(
         visible: _selectedUsers.isNotEmpty,
-        child: FlatButton(
+        child: TextButton(
           child: Text(
             CirclesLocalizations.of(context).invite,
             style: AppTheme.buttonTextStyle,

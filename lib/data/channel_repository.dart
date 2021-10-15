@@ -34,7 +34,7 @@ class ChannelRepository {
   static const String INVITEDMEMBERS = "invited_members";
   static const String METADATA = "metadata";
 
-  final Firestore _firestore;
+  final FirebaseFirestore _firestore;
 
   const ChannelRepository(this._firestore);
 
@@ -43,7 +43,7 @@ class ChannelRepository {
         .collection(FirestorePaths.channelsPath(groupId))
         .snapshots()
         .asyncMap((channelDocuments) {
-      return Future.wait(channelDocuments.documents.map((document) async {
+      return Future.wait(channelDocuments.docs.map((document) async {
         return await documentToChannel(groupId, userId, document);
       }));
     });
@@ -52,7 +52,7 @@ class ChannelRepository {
   Stream<Channel> getStreamForChannel(
       String groupId, String channelId, String userId) {
     return _firestore
-        .document(FirestorePaths.channelPath(groupId, channelId))
+        .doc(FirestorePaths.channelPath(groupId, channelId))
         .snapshots()
         .asyncMap((document) async {
       return await documentToChannel(groupId, userId, document);
@@ -68,15 +68,15 @@ class ChannelRepository {
     try {
       await _firestore
           .collection(FirestorePaths.PATH_USERS)
-          .document(userId)
-          .updateData({
+          .doc(userId)
+          .update({
         groupId: FieldValue.arrayRemove([channelId])
       });
 
       return await _firestore
           .collection(channelUsersPath)
-          .document(userId)
-          .updateData({HASUPDATES: false});
+          .doc(userId)
+          .update({HASUPDATES: false});
     } catch (e) {
       Logger.e(
         "Couldn't mark read status for user: $userId ",
@@ -95,7 +95,7 @@ class ChannelRepository {
   ) async {
     final channelUsersPath =
         FirestorePaths.channelUsersPath(groupId, channelId);
-    await _firestore.collection(channelUsersPath).document(userId).delete();
+    await _firestore.collection(channelUsersPath).doc(userId).delete();
   }
 
   Future<Channel> joinChannel(
@@ -110,10 +110,7 @@ class ChannelRepository {
         FirestorePaths.channelUsersPath(groupId, channel.id);
     final data = toChannelUserMap(channelUser);
 
-    await _firestore
-        .collection(channelUsersPath)
-        .document(userId)
-        .setData(data);
+    await _firestore.collection(channelUsersPath).doc(userId).set(data);
 
     return channel.rebuild((c) => c..users.add(channelUser));
   }
@@ -136,27 +133,24 @@ class ChannelRepository {
 
     for (final user in users) {
       final data = toChannelUserInviteMap(
-          user: user,
-          channel: channel,
-          invitingUsername: invitingUsername,
-          groupName: groupName);
-      await _firestore
-          .collection(channelUsersPath)
-          .document(user.id)
-          .setData(data);
+        user: user,
+        channel: channel,
+        invitingUsername: invitingUsername,
+        groupName: groupName,
+      );
+      await _firestore.collection(channelUsersPath).doc(user.id).set(data);
     }
 
     return channel.rebuild((c) => c..users.addAll(users));
   }
 
-  Future<Channel> createChannel(
-      String groupId, Channel channel, List<String> members, String authorUid) async {
+  Future<Channel> createChannel(String groupId, Channel channel,
+      List<String> members, String authorUid) async {
     final data = toMap(channel, members);
-    final snapshot = await _firestore
-        .collection(FirestorePaths.channelsPath(groupId))
-        .getDocuments();
+    final snapshot =
+        await _firestore.collection(FirestorePaths.channelsPath(groupId)).get();
 
-    final channelExists = snapshot.documents
+    final channelExists = snapshot.docs
         .any((doc) => doc[NAME].toLowerCase() == channel.name.toLowerCase());
     if (channelExists) {
       return Future.error(ChannelExistsError());
@@ -181,18 +175,18 @@ class ChannelRepository {
     String userId,
     DocumentSnapshot document,
   ) async {
-    final snapshot = await document.reference.collection(USERS).getDocuments();
-    final usersDocuments = snapshot.documents;
+    final snapshot = await document.reference.collection(USERS).get();
+    final usersDocuments = snapshot.docs;
 
     final users = usersDocuments.map((data) => channelUserFromDoc(data));
 
-    final userDocument = usersDocuments
-        .firstWhere((doc) => doc.documentID == userId, orElse: () => null);
+    final userDocument = usersDocuments.firstWhere((doc) => doc.id == userId,
+        orElse: () => null);
 
     final hasUpdates =
-        (userDocument == null || userDocument.data[HASUPDATES] == null)
+        (userDocument == null || userDocument.data()[HASUPDATES] == null)
             ? false
-            : userDocument.data[HASUPDATES];
+            : userDocument.data()[HASUPDATES];
 
     return fromDocWithUsers(
         doc: document,
@@ -208,8 +202,8 @@ class ChannelRepository {
 
   Future<void> updateChannel(String groupId, Channel channel) async {
     await _firestore
-        .document(FirestorePaths.channelPath(groupId, channel.id))
-        .updateData({
+        .doc(FirestorePaths.channelPath(groupId, channel.id))
+        .update({
       DESCRIPTION: channel.description,
       VENUE: channel.venue,
       START_DATE: _formatToTimestamp(channel),
@@ -223,7 +217,7 @@ class ChannelRepository {
     String userId,
   ) async {
     final document = await _firestore
-        .document(FirestorePaths.channelPath(groupId, channelId))
+        .doc(FirestorePaths.channelPath(groupId, channelId))
         .get();
     return await documentToChannel(groupId, userId, document);
   }
@@ -236,11 +230,10 @@ class ChannelRepository {
   ) async {
     final channelUsersPath =
         FirestorePaths.channelUsersPath(groupId, channelId);
-
     await _firestore
         .collection(channelUsersPath)
-        .document(userId)
-        .updateData({RSVP_FIELD: RSVPHelper.stringOf(rsvp)});
+        .doc(userId)
+        .update({RSVP_FIELD: RSVPHelper.stringOf(rsvp)});
   }
 
   static toChannelUserMap(ChannelUser user, {bool isInvite = false}) {
@@ -319,7 +312,7 @@ class ChannelRepository {
     }
 
     return Channel((c) => c
-      ..id = doc.documentID
+      ..id = doc.id
       ..name = doc[NAME]
       ..description = doc[DESCRIPTION]
       ..visibility = ChannelVisibilityHelper.valueOf(doc[VISIBILITY]) ??

@@ -42,7 +42,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
               visible: _leftAction == null,
               child: Container(
                 width: 100.0, // Minimum size of a flat button
-                child: FlatButton(
+                child: TextButton(
                     child: Text(
                       CirclesLocalizations.of(context).back,
                       style: AppTheme.buttonTextStyle,

@@ -9,9 +9,9 @@ class FileRepository {
 
   Future uploadFile(File file) async {
     final String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    final StorageReference reference = _firebaseStorage.ref().child(fileName);
-    final StorageUploadTask uploadTask = reference.putFile(file);
-    final StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
+    final Reference reference = _firebaseStorage.ref().child(fileName);
+    final UploadTask uploadTask = reference.putFile(file);
+    final TaskSnapshot storageTaskSnapshot = await uploadTask;
     return storageTaskSnapshot.ref.getDownloadURL();
   }
 }

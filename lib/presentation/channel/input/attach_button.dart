@@ -41,8 +41,8 @@ class AttachButton extends StatelessWidget {
           context: context, type: AccessResourceType.CAMERA);
       return;
     }
-
-    final imageFile = await ImagePicker.pickImage(source: ImageSource.camera);
+    final imagePicker = ImagePicker();
+    final imageFile = await imagePicker.pickImage(source: ImageSource.camera);
     if (imageFile == null) return;
     StoreProvider.of<AppState>(context).dispatch(
       NewMessageWithMultipleFilesAction([imageFile.path], true),

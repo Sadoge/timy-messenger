@@ -74,7 +74,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     return Scaffold(
       appBar: CommonAppBar(
         title: _buildTitle(context),
-        action: FlatButton(
+        action: TextButton(
             key: Key("Create"),
             child: Text(
               _buildSaveButtonText(context),

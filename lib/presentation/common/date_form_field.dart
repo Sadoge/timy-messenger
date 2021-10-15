@@ -87,7 +87,7 @@ class _DateFormFieldState extends State<DateFormField> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       CirclesLocalizations.of(context).cancel,
                       style: AppTheme.buttonTextStyle,
@@ -98,7 +98,7 @@ class _DateFormFieldState extends State<DateFormField> {
                       widget._controller.value = null;
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       CirclesLocalizations.of(context).save,
                       style: AppTheme.buttonTextStyle,

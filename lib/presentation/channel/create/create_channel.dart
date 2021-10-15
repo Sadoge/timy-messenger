@@ -50,15 +50,16 @@ class _CreateChannelScreenState extends State<CreateChannelScreen> {
   Widget _buildAppBar(context) {
     return CommonAppBar(
       title: CirclesLocalizations.of(context).channelFormCreateTopic,
-      action: FlatButton(
-          key: Key("Create"),
-          child: Text(
-            CirclesLocalizations.of(context).channelCreateButton,
-            style: AppTheme.buttonTextStyle,
-          ),
-          onPressed: () {
-            _validateAndSubmit();
-          }),
+      action: TextButton(
+        key: Key("Create"),
+        child: Text(
+          CirclesLocalizations.of(context).channelCreateButton,
+          style: AppTheme.buttonTextStyle,
+        ),
+        onPressed: () {
+          _validateAndSubmit();
+        },
+      ),
     );
   }
 

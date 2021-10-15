@@ -2,7 +2,7 @@ import "package:built_collection/built_collection.dart";
 import "package:circles_app/data/firestore_paths.dart";
 import "package:circles_app/model/user.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
-import "package:firebase_auth/firebase_auth.dart";
+import "package:firebase_auth/firebase_auth.dart" as fba;
 
 class UserRepository {
   static const NAME = "name";
@@ -15,8 +15,8 @@ class UserRepository {
   static const JOINEDGROUPS = "joinedGroups";
   static const STATUS = "status";
 
-  final FirebaseAuth _firebaseAuth;
-  final Firestore _firestore;
+  final fba.FirebaseAuth _firebaseAuth;
+  final FirebaseFirestore _firestore;
 
   const UserRepository(
     this._firebaseAuth,
@@ -26,7 +26,7 @@ class UserRepository {
   Stream<User> getUserStream(userId) {
     return _firestore
         .collection(FirestorePaths.PATH_USERS)
-        .document(userId)
+        .doc(userId)
         .snapshots()
         .map((userSnapshot) {
       return fromDoc(userSnapshot);
@@ -39,14 +39,14 @@ class UserRepository {
         .where(JOINEDGROUPS, arrayContains: groupId)
         .snapshots()
         .map((userSnapshot) {
-      final users = userSnapshot.documents.map(fromDoc).toList();
+      final users = userSnapshot.docs.map(fromDoc).toList();
       users.sort((a, b) => a.name.compareTo(b.name));
       return users;
     });
   }
 
   Stream<User> getAuthenticationStateChange() {
-    return _firebaseAuth.onAuthStateChanged.asyncMap((firebaseUser) {
+    return _firebaseAuth.authStateChanges().asyncMap((firebaseUser) {
       return _fromFirebaseUser(firebaseUser);
     });
   }
@@ -58,11 +58,11 @@ class UserRepository {
     return await _fromFirebaseUser(firebaseUser.user);
   }
 
-  Future<User> _fromFirebaseUser(FirebaseUser firebaseUser) async {
+  Future<User> _fromFirebaseUser(fba.User firebaseUser) async {
     if (firebaseUser == null) return Future.value(null);
 
     final documentReference =
-        _firestore.document(FirestorePaths.userPath(firebaseUser.uid));
+        _firestore.doc(FirestorePaths.userPath(firebaseUser.uid));
     final snapshot = await documentReference.get();
 
     User user;
@@ -73,7 +73,7 @@ class UserRepository {
             ..name = firebaseUser
                 .email // Default name will be the email, let user change later
           );
-      await documentReference.setData(toMap(user));
+      await documentReference.set(toMap(user));
     } else {
       user = fromDoc(snapshot);
     }
@@ -86,11 +86,11 @@ class UserRepository {
   }
 
   Future<void> updateUserToken(String token) async {
-    final firebaseUser = await _firebaseAuth.currentUser();
+    final firebaseUser = _firebaseAuth.currentUser;
     if (firebaseUser != null) {
       final documentReference =
-          _firestore.document(FirestorePaths.userPath(firebaseUser.uid));
-      return documentReference.updateData({
+          _firestore.doc(FirestorePaths.userPath(firebaseUser.uid));
+      return documentReference.update({
         TOKEN: token,
       });
     }
@@ -103,11 +103,11 @@ class UserRepository {
   /// - image
   ///
   Future<void> updateUser(User user) async {
-    final firebaseUser = await _firebaseAuth.currentUser();
+    final firebaseUser = _firebaseAuth.currentUser;
     if (firebaseUser != null) {
       final documentReference =
-          _firestore.document(FirestorePaths.userPath(firebaseUser.uid));
-      return documentReference.updateData({
+          _firestore.doc(FirestorePaths.userPath(firebaseUser.uid));
+      return documentReference.update({
         STATUS: user.status,
         NAME: user.name,
         IMAGE: user.image,
@@ -118,11 +118,11 @@ class UserRepository {
   // Sets a users locale on our backend.
   // The locale is used to send localized notifications.
   Future<void> updateUserLocale(String locale) async {
-    final firebaseUser = await _firebaseAuth.currentUser();
+    final firebaseUser = _firebaseAuth.currentUser;
     if (firebaseUser != null) {
       final documentReference =
-          _firestore.document(FirestorePaths.userPath(firebaseUser.uid));
-      return documentReference.updateData({
+          _firestore.doc(FirestorePaths.userPath(firebaseUser.uid));
+      return documentReference.update({
         LOCALE: locale,
       });
     }
@@ -138,7 +138,7 @@ class UserRepository {
 
   static User fromDoc(DocumentSnapshot document) {
     return User((u) => u
-      ..uid = document.documentID
+      ..uid = document.id
       ..name = document[NAME]
       ..email = document[EMAIL]
       ..image = document[IMAGE]

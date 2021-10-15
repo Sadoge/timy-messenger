@@ -20,7 +20,9 @@ class ChannelsList extends StatelessWidget {
           return Container(
               width: DrawerStyle.listWidth,
               child: Padding(
-                padding: EdgeInsets.only(left: DrawerStyle.defaultPadding, right: DrawerStyle.defaultPadding),
+                padding: EdgeInsets.only(
+                    left: DrawerStyle.defaultPadding,
+                    right: DrawerStyle.defaultPadding),
                 child: ListView.builder(
                   itemCount: items.length,
                   itemBuilder: (context, index) {
@@ -81,7 +83,7 @@ class _ChannelListActionItemWidget extends StatelessWidget {
           ),
           Container(
               width: 50,
-              child: FlatButton(
+              child: TextButton(
                   onPressed: () => {_item.buttonAction(context)},
                   child: Image.asset(
                       "assets/graphics/channel/create_new_channel.png"))),

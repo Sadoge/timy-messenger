@@ -29,16 +29,22 @@ class JoinChannel extends StatelessWidget {
                     child: Text(
                         CirclesLocalizations.of(context).channelJoinMessage),
                   ),
-                  Container(
-                      child: RaisedButton(
-                    color: Colors.blue,
-                    textColor: Colors.white,
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue,
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                     child: Text(CirclesLocalizations.of(context).channelJoin),
                     onPressed: () {
-                      StoreProvider.of<AppState>(context)
-                          .dispatch(JoinChannelAction(groupId: _groupId, channel: _channel, user: _user));
+                      StoreProvider.of<AppState>(context).dispatch(
+                          JoinChannelAction(
+                              groupId: _groupId,
+                              channel: _channel,
+                              user: _user));
                     },
-                  ))
+                  ),
                 ],
               )),
             ],

@@ -10,12 +10,12 @@ class GroupRepository {
   static const String COLOR = "color";
   static const String MEMBERS = "members";
 
-  final Firestore firestore;
+  final FirebaseFirestore firestore;
 
   const GroupRepository(this.firestore);
 
   Future<Group> getGroup(String id) async {
-    final doc = await firestore.document(FirestorePaths.groupPath(id)).get();
+    final doc = await firestore.doc(FirestorePaths.groupPath(id)).get();
     return fromDoc(doc);
   }
 
@@ -25,13 +25,13 @@ class GroupRepository {
         .where(MEMBERS, arrayContains: userId)
         .snapshots()
         .map((snapShot) {
-      return snapShot.documents.map((doc) => fromDoc(doc)).toList();
+      return snapShot.docs.map((doc) => fromDoc(doc)).toList();
     });
   }
 
   static Group fromDoc(DocumentSnapshot doc) {
     return Group((c) => c
-      ..id = doc.documentID
+      ..id = doc.id
       ..name = doc[NAME]
       ..image = doc[IMAGE]
       ..abbreviation = doc[ABBREVIATION]

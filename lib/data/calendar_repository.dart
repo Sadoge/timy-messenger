@@ -3,7 +3,7 @@ import "package:circles_app/model/calendar_entry.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 
 class CalendarRepository {
-  final Firestore _firestore;
+  final FirebaseFirestore _firestore;
   const CalendarRepository(this._firestore);
 
   Future<List<CalendarEntry>> getCalendarEntries(String userId) async {
@@ -12,9 +12,9 @@ class CalendarRepository {
         .where(_Constants.USERS, arrayContains: userId)
         .orderBy(_Constants.EVENTDATE, descending: false)
         .limit(100)
-        .getDocuments();
+        .get();
 
-    return snapshot.documents.map((d) => _fromDoc(d)).toList();
+    return snapshot.docs.map((d) => _fromDoc(d)).toList();
   }
 
   static CalendarEntry _fromDoc(DocumentSnapshot doc) {

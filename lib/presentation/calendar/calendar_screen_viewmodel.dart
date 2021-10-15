@@ -33,7 +33,7 @@ abstract class CalendarScreenViewModel
       nowFullDate.month,
       nowFullDate.day,
     ));
-    final calendarItems = List<CalendarItem>();
+    final calendarItems = <CalendarItem>[];
     DateTime sectionDate = DateTime(
       1900,
       today.month,
@@ -61,16 +61,16 @@ abstract class CalendarScreenViewModel
         sectionDate = entryDate;
 
         // Check if we've found the most relevant item and mark it
-        if (calendarEntry.eventDate.isAfter(today) && upcomingEventHeaderIndex == -1) {
+        if (calendarEntry.eventDate.isAfter(today) &&
+            upcomingEventHeaderIndex == -1) {
           upcomingEventHeaderIndex = headerItemCount - 1;
         }
 
         // Add header
         sectionItem = CalendarHeaderItem(
-          date: entryDate,
-          isToday: today.isAtSameMomentAs(entryDate),
-          isPast: upcomingEventHeaderIndex == -1
-        );
+            date: entryDate,
+            isToday: today.isAtSameMomentAs(entryDate),
+            isPast: upcomingEventHeaderIndex == -1);
         calendarItems.add(sectionItem);
       }
 
@@ -89,16 +89,15 @@ abstract class CalendarScreenViewModel
 
       // Add actual CalendarEntryItem
       calendarItems.add(CalendarEntryItem(
-        date: calendarEntry.eventDate,
-        groupName: calendarEntry.groupName,
-        groupId: calendarEntry.groupId,
-        eventName: calendarEntry.channelName,
-        eventId: calendarEntry.channelId,
-        rsvpStatus: RSVP.UNSET,
-        isSelected: isSelected,
-        isAllDay: !calendarEntry.hasStartTime,
-        isPast: upcomingEventHeaderIndex == -1
-      ));
+          date: calendarEntry.eventDate,
+          groupName: calendarEntry.groupName,
+          groupId: calendarEntry.groupId,
+          eventName: calendarEntry.channelName,
+          eventId: calendarEntry.channelId,
+          rsvpStatus: RSVP.UNSET,
+          isSelected: isSelected,
+          isAllDay: !calendarEntry.hasStartTime,
+          isPast: upcomingEventHeaderIndex == -1));
     });
 
     return CalendarScreenViewModel(
@@ -106,7 +105,7 @@ abstract class CalendarScreenViewModel
         ..calendar = ListBuilder(calendarItems)
         ..headerItemSizeMap = MapBuilder(headerItemMap)
         ..selectedEventHeaderIndex = selectedEventHeaderIndex
-        ..upcomingEventHeaderIndex = upcomingEventHeaderIndex, 
+        ..upcomingEventHeaderIndex = upcomingEventHeaderIndex,
     );
   }
 }

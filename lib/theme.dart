@@ -33,16 +33,13 @@ class AppTheme {
   static final colorWhite_50 = Colors.white.withOpacity(0.5);
 
   static ThemeData get theme {
-    return ThemeData.light().copyWith(
-      primaryColor: Colors.black,
-      accentColor: Colors.black,
-    );
+    return ThemeData.light().copyWith(primaryColor: Colors.black);
   }
 
   /// Calendar
 
   static TextStyle get calendarDayTitle {
-    return theme.textTheme.headline.copyWith(
+    return theme.textTheme.headline1.copyWith(
       color: colorDarkBlue,
       fontSize: 16,
       fontFamily: fontFamilyEdmondsansBold,
@@ -50,7 +47,7 @@ class AppTheme {
   }
 
   static TextStyle get calendarListEventName {
-    return theme.textTheme.headline.copyWith(
+    return theme.textTheme.headline1.copyWith(
       color: colorDarkBlue,
       fontSize: 16,
       fontFamily: fontFamilyEdmondsansMedium,
@@ -58,7 +55,7 @@ class AppTheme {
   }
 
   static TextStyle get calendarListGroupName {
-    return theme.textTheme.headline.copyWith(
+    return theme.textTheme.headline1.copyWith(
       color: colorDarkBlue.withAlpha(150),
       fontSize: 16,
       fontFamily: fontFamilyEdmondsansMedium,
@@ -66,7 +63,7 @@ class AppTheme {
   }
 
   static TextStyle get calendarListTime {
-    return theme.textTheme.headline.copyWith(
+    return theme.textTheme.headline1.copyWith(
       color: Colors.white,
       fontSize: 12,
       fontFamily: fontFamilyEdmondsansMedium,
@@ -76,7 +73,7 @@ class AppTheme {
   ///
 
   static TextStyle get eventIconMemberTitle {
-    return theme.textTheme.headline.copyWith(
+    return theme.textTheme.headline1.copyWith(
       color: Colors.white,
       fontSize: 11,
       fontFamily: fontFamilyEdmondsansBold,
@@ -84,7 +81,7 @@ class AppTheme {
   }
 
   static TextStyle get eventIconTitle {
-    return theme.textTheme.headline.copyWith(
+    return theme.textTheme.headline1.copyWith(
       color: colorDarkBlueFont,
       fontSize: 11,
       fontFamily: fontFamilyEdmondsansBold,
@@ -92,7 +89,7 @@ class AppTheme {
   }
 
   static TextStyle get eventIconMemberSubTitle {
-    return theme.textTheme.headline.copyWith(
+    return theme.textTheme.headline1.copyWith(
       color: Colors.white,
       fontSize: 8,
       height: 0.7,
@@ -101,7 +98,7 @@ class AppTheme {
   }
 
   static TextStyle get eventIconSubTitle {
-    return theme.textTheme.headline.copyWith(
+    return theme.textTheme.headline1.copyWith(
       color: colorDarkBlueFont,
       fontSize: 8,
       height: 0.7,
@@ -110,7 +107,7 @@ class AppTheme {
   }
 
   static TextStyle get channelTitle {
-    return theme.textTheme.headline.copyWith(
+    return theme.textTheme.headline1.copyWith(
       color: Colors.black,
       fontSize: 16,
       fontFamily: fontFamilyEdmondsansBold,
@@ -134,7 +131,7 @@ class AppTheme {
   }
 
   static TextStyle get circleTitle {
-    return theme.textTheme.headline.copyWith(
+    return theme.textTheme.headline1.copyWith(
       color: colorDarkBlueFont,
       fontSize: 24,
       fontFamily: fontFamilyEdmondsansBold,
@@ -142,7 +139,7 @@ class AppTheme {
   }
 
   static TextStyle get circleSectionButtonTitle {
-    return theme.textTheme.headline.copyWith(
+    return theme.textTheme.headline1.copyWith(
       color: colorDarkBlueFont,
       fontSize: 16,
       fontFamily: fontFamilyEdmondsansBold,
@@ -150,7 +147,7 @@ class AppTheme {
   }
 
   static TextStyle get circleSectionChannelTitle {
-    return theme.textTheme.headline.copyWith(
+    return theme.textTheme.headline1.copyWith(
       color: colorDarkBlue,
       fontSize: 16,
       fontFamily: fontFamilyEdmondsansMedium,
@@ -158,7 +155,7 @@ class AppTheme {
   }
 
   static TextStyle get circleSectionTitle {
-    return theme.textTheme.headline.copyWith(
+    return theme.textTheme.headline1.copyWith(
       color: colorDarkBlueFont.withOpacity(0.4),
       fontSize: 12,
       letterSpacing: 1,
@@ -167,7 +164,7 @@ class AppTheme {
   }
 
   static TextStyle get notificationTitle {
-    return theme.textTheme.body1.copyWith(
+    return theme.textTheme.bodyText1.copyWith(
       color: Colors.white,
       fontSize: 16,
       fontWeight: FontWeight.w800,
@@ -176,7 +173,7 @@ class AppTheme {
   }
 
   static TextStyle get notificationTime {
-    return theme.textTheme.body1.copyWith(
+    return theme.textTheme.bodyText1.copyWith(
       color: Colors.white,
       fontSize: 12,
       fontFamily: fontFamilyEdmondsansRegular,
@@ -184,7 +181,7 @@ class AppTheme {
   }
 
   static TextStyle get notificationBody {
-    return theme.textTheme.body1.copyWith(
+    return theme.textTheme.bodyText1.copyWith(
       color: Colors.white,
       fontSize: 16,
       fontFamily: fontFamilyEdmondsansRegular,
@@ -426,10 +423,7 @@ class AppTheme {
     );
   }
 
-  static InputDecorationTheme _inputDecorationTheme({
-    baseColor: Color,
-    textColor: Color,
-  }) {
+  static InputDecorationTheme _inputDecorationTheme({baseColor: Color}) {
     return InputDecorationTheme(
       border: OutlineInputBorder(borderSide: BorderSide(color: baseColor)),
       enabledBorder:

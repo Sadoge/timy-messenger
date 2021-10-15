@@ -79,17 +79,18 @@ class _UserScreenState extends State<UserScreen> {
       _editMode ? _buildCancelButton(vm) : null;
 
   Widget _buildCancelButton(UserScreenViewModel vm) {
-    return FlatButton(
-        child: Text(
-          "Cancel",
-          style: AppTheme.buttonTextStyle,
-        ),
-        onPressed: () {
-          _setInitialEditState(vm);
-          setState(() {
-            _editMode = false;
-          });
+    return TextButton(
+      child: Text(
+        "Cancel",
+        style: AppTheme.buttonTextStyle,
+      ),
+      onPressed: () {
+        _setInitialEditState(vm);
+        setState(() {
+          _editMode = false;
         });
+      },
+    );
   }
 
   Widget _buildRightAction(UserScreenViewModel vm) {
@@ -102,28 +103,30 @@ class _UserScreenState extends State<UserScreen> {
     );
   }
 
-  FlatButton _buildSaveButton(UserScreenViewModel vm) {
-    return FlatButton(
-        child: Text(
-          CirclesLocalizations.of(context).save,
-          style: AppTheme.buttonTextStyle,
-        ),
-        onPressed: () {
-          _validateAndSubmit(vm);
-        });
+  TextButton _buildSaveButton(UserScreenViewModel vm) {
+    return TextButton(
+      child: Text(
+        CirclesLocalizations.of(context).save,
+        style: AppTheme.buttonTextStyle,
+      ),
+      onPressed: () {
+        _validateAndSubmit(vm);
+      },
+    );
   }
 
-  FlatButton _buildEditButton() {
-    return FlatButton(
-        child: Text(
-          CirclesLocalizations.of(context).edit,
-          style: AppTheme.buttonTextStyle,
-        ),
-        onPressed: () {
-          setState(() {
-            _editMode = true;
-          });
+  TextButton _buildEditButton() {
+    return TextButton(
+      child: Text(
+        CirclesLocalizations.of(context).edit,
+        style: AppTheme.buttonTextStyle,
+      ),
+      onPressed: () {
+        setState(() {
+          _editMode = true;
         });
+      },
+    );
   }
 
   Widget _buildUserAvatar(UserScreenViewModel vm) {
@@ -151,7 +154,8 @@ class _UserScreenState extends State<UserScreen> {
                   CupertinoActionSheetAction(
                     child: ModalItem(
                       iconAsset: "assets/graphics/input/icon_pictures.png",
-                      label: CirclesLocalizations.of(context).attachModalGallery,
+                      label:
+                          CirclesLocalizations.of(context).attachModalGallery,
                     ),
                     onPressed: () {
                       _changeUserAvatar(ImageSource.gallery, context, vm);
@@ -199,11 +203,14 @@ class _UserScreenState extends State<UserScreen> {
     UserScreenViewModel vm,
   ) async {
     // NOTE: The whole avatar upload will be redone once we have the proper UI
-    final imageFile = await ImagePicker.pickImage(source: source);
-    StoreProvider.of<AppState>(context).dispatch(ChangeAvatarAction(
-      file: imageFile,
-      user: vm.user,
-    ));
+    final imagePicker = ImagePicker();
+    final imageFile = await imagePicker.pickImage(source: source);
+    StoreProvider.of<AppState>(context).dispatch(
+      ChangeAvatarAction(
+        file: imageFile,
+        user: vm.user,
+      ),
+    );
     await Navigator.of(context).maybePop();
   }
 

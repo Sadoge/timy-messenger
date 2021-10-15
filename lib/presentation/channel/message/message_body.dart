@@ -23,8 +23,7 @@ class MessageBody extends StatelessWidget {
     }
     final elements = linkify(
       _message.body,
-      humanize: true,
-      linkTypes: null,
+      options: LinkifyOptions(humanize: true),
     );
     return RichText(
       textScaleFactor: MediaQuery.of(context).textScaleFactor,

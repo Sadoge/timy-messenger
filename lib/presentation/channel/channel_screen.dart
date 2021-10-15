@@ -55,7 +55,7 @@ List<Widget> _buildChildren(ChannelScreenViewModel vm, BuildContext context) {
         title: Text("Join channel failed"),
         content: Text("An error occured. Please try again!"),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
               child: Text("Ok"),
               onPressed: () {
                 StoreProvider.of<AppState>(context)

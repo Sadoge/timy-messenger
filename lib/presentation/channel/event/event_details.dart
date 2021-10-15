@@ -170,7 +170,7 @@ class _EventDetailsWidgetState extends State<_EventDetailsWidget>
       child: SafeArea(
         child: Visibility(
           visible: widget.vm.editable,
-          child: FlatButton(
+          child: TextButton(
               child: Text(
                 CirclesLocalizations.of(context).edit,
                 style: AppTheme.buttonTextStyle,
@@ -191,12 +191,8 @@ class _EventDetailsWidgetState extends State<_EventDetailsWidget>
     return TabBar(
       controller: _tabController,
       tabs: <Widget>[
-        _buildTab(CirclesLocalizations
-            .of(context)
-            .eventDetails),
-        _buildTab(CirclesLocalizations
-            .of(context)
-            .eventGuests),
+        _buildTab(CirclesLocalizations.of(context).eventDetails),
+        _buildTab(CirclesLocalizations.of(context).eventGuests),
       ],
       labelPadding: EdgeInsets.all(0),
       indicatorColor: AppTheme.colorDarkBlueFont,
@@ -317,9 +313,7 @@ class _EventDetailsWidgetState extends State<_EventDetailsWidget>
               ),
             ),
             Text(
-              CirclesLocalizations
-                  .of(context)
-                  .eventPrivate,
+              CirclesLocalizations.of(context).eventPrivate,
               style: AppTheme.topicDetailsItemTextStyle,
             ),
           ],
@@ -327,7 +321,7 @@ class _EventDetailsWidgetState extends State<_EventDetailsWidget>
         break;
       case ChannelVisibility.OPEN:
       default:
-      // Do not show for Open channels
+        // Do not show for Open channels
         return Container();
         break;
     }
@@ -362,9 +356,7 @@ class _EventDetailsWidgetState extends State<_EventDetailsWidget>
             child: UserAvatar(user: widget.vm.user),
           ),
           Text(
-            CirclesLocalizations
-                .of(context)
-                .eventRsvpUser,
+            CirclesLocalizations.of(context).eventRsvpUser,
             style: AppTheme.topicDetailsItemTextStyle,
           ),
           Padding(
@@ -373,7 +365,7 @@ class _EventDetailsWidgetState extends State<_EventDetailsWidget>
           ),
           Visibility(
             visible: widget.vm.canChangeRsvp,
-            child: FlatButton(
+            child: TextButton(
               child: Text(
                 CirclesLocalizations.of(context).eventRsvpChange,
                 style: AppTheme.buttonTextStyle,
@@ -405,9 +397,7 @@ class _EventDetailsWidgetState extends State<_EventDetailsWidget>
           return Padding(
             padding: const EdgeInsets.all(AppTheme.appMargin),
             child: RoundButton(
-              text: CirclesLocalizations
-                  .of(context)
-                  .channelInviteButton,
+              text: CirclesLocalizations.of(context).channelInviteButton,
               onTap: () {
                 Navigator.of(context).pushNamed(Routes.channelInvite,
                     arguments: widget.vm.channel.id);
@@ -436,47 +426,40 @@ class _EventDetailsWidgetState extends State<_EventDetailsWidget>
 
     showCupertinoModalPopup(
       context: context,
-      builder: (BuildContext context) =>
-          CupertinoActionSheet(
-            actions: <Widget>[
-              CupertinoActionSheetAction(
-                child: Text(
-                  CirclesLocalizations
-                      .of(context)
-                      .eventRsvpYes,
-                  style: AppTheme.optionTextStyle,
-                  textScaleFactor: 1,
-                ),
-                onPressed: () {
-                  _changeRsvp(context, completer, RSVP.YES);
-                },
-              ),
-              CupertinoActionSheetAction(
-                child: Text(
-                  CirclesLocalizations
-                      .of(context)
-                      .eventRsvpMaybe,
-                  style: AppTheme.optionTextStyle,
-                  textScaleFactor: 1,
-                ),
-                onPressed: () {
-                  _changeRsvp(context, completer, RSVP.MAYBE);
-                },
-              ),
-              CupertinoActionSheetAction(
-                child: Text(
-                  CirclesLocalizations
-                      .of(context)
-                      .eventRsvpNo,
-                  style: AppTheme.optionTextStyle,
-                  textScaleFactor: 1,
-                ),
-                onPressed: () {
-                  _changeRsvp(context, completer, RSVP.NO);
-                },
-              ),
-            ],
+      builder: (BuildContext context) => CupertinoActionSheet(
+        actions: <Widget>[
+          CupertinoActionSheetAction(
+            child: Text(
+              CirclesLocalizations.of(context).eventRsvpYes,
+              style: AppTheme.optionTextStyle,
+              textScaleFactor: 1,
+            ),
+            onPressed: () {
+              _changeRsvp(context, completer, RSVP.YES);
+            },
           ),
+          CupertinoActionSheetAction(
+            child: Text(
+              CirclesLocalizations.of(context).eventRsvpMaybe,
+              style: AppTheme.optionTextStyle,
+              textScaleFactor: 1,
+            ),
+            onPressed: () {
+              _changeRsvp(context, completer, RSVP.MAYBE);
+            },
+          ),
+          CupertinoActionSheetAction(
+            child: Text(
+              CirclesLocalizations.of(context).eventRsvpNo,
+              style: AppTheme.optionTextStyle,
+              textScaleFactor: 1,
+            ),
+            onPressed: () {
+              _changeRsvp(context, completer, RSVP.NO);
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -493,7 +476,7 @@ class _EventDetailsWidgetState extends State<_EventDetailsWidget>
       child: Padding(
         padding: const EdgeInsets.all(AppTheme.appMargin),
         child: Center(
-          child: FlatButton(
+          child: TextButton(
             child: Text(
               CirclesLocalizations.of(context).eventLeave,
               style: AppTheme.buttonTextStyle,
@@ -513,7 +496,7 @@ class _EventDetailsWidgetState extends State<_EventDetailsWidget>
       builder: (_) => PlatformAlertDialog(
         title: Text(CirclesLocalizations.of(context).channelLeaveAlertTitle),
         content:
-        Text(CirclesLocalizations.of(context).channelLeaveAlertMessage),
+            Text(CirclesLocalizations.of(context).channelLeaveAlertMessage),
         actions: <Widget>[
           PlatformDialogAction(
               child: Text(CirclesLocalizations.of(context).yes),

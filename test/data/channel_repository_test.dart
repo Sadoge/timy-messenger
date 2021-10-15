@@ -80,7 +80,7 @@ main() {
       when(document["name"]).thenReturn("CHANNEL");
       when(document["visibility"]).thenReturn("OPEN");
       when(document["description"]).thenReturn("DESC");
-      when(document.documentID).thenReturn("ID");
+      when(document.id).thenReturn("ID");
       final outChannel = ChannelRepository.fromDocWithUsers(
         doc: document,
         users: BuiltList<ChannelUser>(),

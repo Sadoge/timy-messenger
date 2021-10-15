@@ -12,7 +12,6 @@ import "package:circles_app/data/message_repository.dart";
 import "package:circles_app/domain/redux/message/message_middleware.dart";
 import "package:circles_app/data/channel_repository.dart";
 import "package:circles_app/circles_localization.dart";
-import "package:circles_app/domain/redux/push/push_actions.dart";
 import "package:circles_app/domain/redux/push/push_middleware.dart";
 import "package:circles_app/domain/redux/user/user_middleware.dart";
 import "package:circles_app/presentation/channel/create/create_channel.dart";
@@ -31,7 +30,6 @@ import "package:circles_app/presentation/settings/settings_screen.dart";
 import "package:circles_app/presentation/user/user_screen.dart";
 import "package:circles_app/routes.dart";
 import "package:circles_app/theme.dart";
-import "package:circles_app/util/logger.dart";
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:firebase_storage/firebase_storage.dart";
@@ -53,11 +51,12 @@ class CirclesApp extends StatefulWidget {
 class _CirclesAppState extends State<CirclesApp> {
   Store<AppState> store;
   static final _navigatorKey = GlobalKey<NavigatorState>();
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  final userRepo = UserRepository(FirebaseAuth.instance, Firestore.instance);
-  final channelRepository = ChannelRepository(Firestore.instance);
-  final groupRepository = GroupRepository(Firestore.instance);
-  final calendarRepository = CalendarRepository(Firestore.instance);
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  final userRepo =
+      UserRepository(FirebaseAuth.instance, FirebaseFirestore.instance);
+  final channelRepository = ChannelRepository(FirebaseFirestore.instance);
+  final groupRepository = GroupRepository(FirebaseFirestore.instance);
+  final calendarRepository = CalendarRepository(FirebaseFirestore.instance);
 
   @override
   void initState() {
@@ -79,7 +78,7 @@ class _CirclesAppState extends State<CirclesApp> {
           _navigatorKey,
         ))
         ..addAll(createMessagesMiddleware(
-          MessageRepository(Firestore.instance),
+          MessageRepository(FirebaseFirestore.instance),
         ))
         ..addAll(createPushMiddleware(
           userRepo,
@@ -94,28 +93,30 @@ class _CirclesAppState extends State<CirclesApp> {
         )),
     );
     store.dispatch(VerifyAuthenticationState());
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        store.dispatch(OnPushNotificationReceivedAction(message));
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        store.dispatch(OnPushNotificationOpenAction(message));
-      },
-      onResume: (Map<String, dynamic> message) async {
-        store.dispatch(OnPushNotificationOpenAction(message));
-      },
-    );
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      Logger.d("Settings registered: $settings");
-    });
-    _firebaseMessaging.getToken().then((String token) {
-      assert(token != null);
-      Logger.d("Push Messaging token: $token");
-      store.dispatch(UpdateUserTokenAction(token));
-    });
+    //TODO: fix firebase messaging
+    //
+    // _firebaseMessaging.configure(
+    //   onMessage: (Map<String, dynamic> message) async {
+    //     store.dispatch(OnPushNotificationReceivedAction(message));
+    //   },
+    //   onLaunch: (Map<String, dynamic> message) async {
+    //     store.dispatch(OnPushNotificationOpenAction(message));
+    //   },
+    //   onResume: (Map<String, dynamic> message) async {
+    //     store.dispatch(OnPushNotificationOpenAction(message));
+    //   },
+    // );
+    // _firebaseMessaging.requestNotificationPermissions(
+    //     const IosNotificationSettings(sound: true, badge: true, alert: true));
+    // _firebaseMessaging.onIosSettingsRegistered
+    //     .listen((IosNotificationSettings settings) {
+    //   Logger.d("Settings registered: $settings");
+    // });
+    // _firebaseMessaging.getToken().then((String token) {
+    //   assert(token != null);
+    //   Logger.d("Push Messaging token: $token");
+    //   store.dispatch(UpdateUserTokenAction(token));
+    // });
   }
 
   // Used to propagate this users current locale to our backend (which then can send localized notifications).
@@ -127,7 +128,6 @@ class _CirclesAppState extends State<CirclesApp> {
 
   @override
   Widget build(BuildContext context) {
-
     return StoreProvider(
       store: store,
       child: MaterialApp(
@@ -161,9 +161,9 @@ class _CirclesAppState extends State<CirclesApp> {
           Routes.image: (context) {
             return ImageScreen();
           },
-          Routes.imagePicker: (context) {
-            return FilePickerScreen();
-          },
+          // Routes.imagePicker: (context) {
+          //   return FilePickerScreen();
+          // },
           Routes.imagePinch: (context) {
             return ImagePinchScreen();
           },

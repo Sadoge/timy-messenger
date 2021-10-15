@@ -27,7 +27,7 @@ main() {
       final document = MockDocumentSnapshot();
       when(document["name"]).thenReturn("NAME");
       when(document["email"]).thenReturn("EMAIL");
-      when(document.documentID).thenReturn("ID");
+      when(document.id).thenReturn("ID");
       when(document["unreadUpdates"]).thenReturn({});
       final userFromDoc = UserRepository.fromDoc(document);
       expect(userFromDoc, user);

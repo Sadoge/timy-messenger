@@ -95,7 +95,7 @@ class _TimeFormFieldState extends State<TimeFormField> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       CirclesLocalizations.of(context).cancel,
                       style: AppTheme.buttonTextStyle,
@@ -106,7 +106,7 @@ class _TimeFormFieldState extends State<TimeFormField> {
                       widget._controller.value = null;
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text(
                       CirclesLocalizations.of(context).save,
                       style: AppTheme.buttonTextStyle,

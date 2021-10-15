@@ -33,7 +33,6 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-
 // MARK: Login Form
 
 class _LoginForm extends StatefulWidget {
@@ -65,15 +64,21 @@ class _LoginFormState extends State<_LoginForm> {
             password: _passwordTextEditingController.text);
 
         StoreProvider.of<AppState>(context).dispatch(loginAction);
-        Scaffold.of(context)
-            .showSnackBar(SnackBar(content: Text("Logging you in...")));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Logging you in...")),
+        );
 
         loginAction.completer.future.catchError((error) {
-          Scaffold.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
           Logger.w(error.code.toString());
-          Scaffold.of(context).showSnackBar(SnackBar(
-              content: Text(CirclesLocalizations.of(context)
-                  .authErrorMessage(error.code.toString()))));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                CirclesLocalizations.of(context)
+                    .authErrorMessage(error.code.toString()),
+              ),
+            ),
+          );
         });
       }
     };

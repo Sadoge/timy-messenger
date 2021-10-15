@@ -217,15 +217,17 @@ class _GroupSettingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: _Style.circleButtonWidth,
-        height: _Style.circleButtonWidth,
-        child: FittedBox(
-            fit: BoxFit.cover,
-            child: FlatButton(
-              shape: CircleBorder(),
-              child: image,
-              onPressed: onPressed,
-            )));
+      width: _Style.circleButtonWidth,
+      height: _Style.circleButtonWidth,
+      child: FittedBox(
+        fit: BoxFit.cover,
+        child: TextButton(
+          style: TextButton.styleFrom(shape: CircleBorder()),
+          child: image,
+          onPressed: onPressed,
+        ),
+      ),
+    );
   }
 }
 
@@ -286,7 +288,7 @@ _selectableListItem({
       borderRadius: BorderRadius.all(Radius.circular(isSelected ? 8.0 : 22.0)),
     ),
     child: Stack(
-      overflow: Overflow.visible,
+      clipBehavior: Clip.none,
       children: <Widget>[
         InkWell(
           child: Center(

@@ -4,7 +4,6 @@ import "package:cloud_firestore/cloud_firestore.dart";
 import "package:flutter_test/flutter_test.dart";
 import "package:mockito/mockito.dart";
 
-
 class MockDocumentSnapshot extends Mock implements DocumentSnapshot {}
 
 main() {
@@ -13,13 +12,12 @@ main() {
       ..id = "ID"
       ..name = "CIRCLE"
       ..hexColor = "FFFFFF"
-      ..abbreviation = "CI"
-    );
+      ..abbreviation = "CI");
 
     test("should map DocumentSnapshot to Circle", () {
       final document = MockDocumentSnapshot();
       when(document["name"]).thenReturn("CIRCLE");
-      when(document.documentID).thenReturn("ID");
+      when(document.id).thenReturn("ID");
       when(document["color"]).thenReturn("FFFFFF");
       when(document["abbreviation"]).thenReturn("CI");
       final outCircle = GroupRepository.fromDoc(document);

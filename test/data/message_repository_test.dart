@@ -45,7 +45,7 @@ main() {
 
     test("should map DocumentSnapshot to Message", () {
       final document = MockDocumentSnapshot();
-      when(document.documentID).thenReturn("ID");
+      when(document.id).thenReturn("ID");
       when(document["body"]).thenReturn("BODY");
       when(document["author"]).thenReturn("authorId");
       when(document["reaction"]).thenReturn({

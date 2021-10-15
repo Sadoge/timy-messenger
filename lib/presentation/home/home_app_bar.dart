@@ -129,7 +129,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: AppTheme.appBarSize,
           child: Center(
             child: Stack(
-              overflow: Overflow.visible,
+              clipBehavior: Clip.none,
               children: <Widget>[
                 Image.asset(
                   "assets/graphics/menu_icon.png",

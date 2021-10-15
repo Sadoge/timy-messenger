@@ -20,14 +20,15 @@ class SendButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: Text(
         CirclesLocalizations.of(context).channelInputSend,
         style: AppTheme.buttonTextStyle,
       ),
-      padding: EdgeInsets.all(16),
-      disabledTextColor: AppTheme.colorTextDisabled,
-      textColor: AppTheme.colorTextEnabled,
+      style: TextButton.styleFrom(
+        textStyle: TextStyle(color: AppTheme.colorTextEnabled),
+        padding: EdgeInsets.all(16),
+      ),
       onPressed: !_enabled
           ? null
           : () {

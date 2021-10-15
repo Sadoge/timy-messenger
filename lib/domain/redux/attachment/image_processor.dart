@@ -3,10 +3,12 @@ import "dart:math";
 import "package:flutter_native_image/flutter_native_image.dart";
 import "dart:io";
 
+import "package:image_picker/image_picker.dart";
+
 const avatarSize = 200;
 
 class ImageProcessor {
-  Future<File> cropAndResizeAvatar(File file) async {
+  Future<File> cropAndResizeAvatar(XFile file) async {
     final ImageProperties properties =
         await FlutterNativeImage.getImageProperties(file.path);
     final squareSize = min(properties.width, properties.height);

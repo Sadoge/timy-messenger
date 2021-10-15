@@ -154,7 +154,8 @@ class CalendarScreen extends StatelessWidget {
       return ListView.builder(
           padding: EdgeInsets.only(
               top: _Style.titleHeight,
-              bottom: constraints.minHeight - (lastSectionHeight + _Style.titleHeight)),
+              bottom: constraints.minHeight -
+                  (lastSectionHeight + _Style.titleHeight)),
           controller: _scrollController,
           itemCount: items.length,
           itemBuilder: (context, index) {
@@ -245,7 +246,7 @@ class CalendarScreen extends StatelessWidget {
                     alignment: Alignment.bottomRight,
                     child: Container(
                       width: 50,
-                      child: FlatButton(
+                      child: TextButton(
                         child: Image.asset(
                             "assets/graphics/calendar/calendar_today.png"),
                         onPressed: () {
@@ -326,9 +327,6 @@ class CalendarScreen extends StatelessWidget {
 
 /// Private Styles
 class _Style {
-  static const topSectionHeight =
-      _Style.titleHeight + DrawerStyle.sectionPadding * 2;
-
   static const pastItemOpacity = 0.6;
   static const defaultElementPadding = EdgeInsets.only(
     left: 4,

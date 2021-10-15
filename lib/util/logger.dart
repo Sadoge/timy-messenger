@@ -11,7 +11,7 @@ configureLogger() {
     Logger.addClient(DebugLoggerClient());
   } else {
     // Pass all uncaught errors from the framework to Crashlytics.
-    FlutterError.onError = Crashlytics.instance.recordFlutterError;
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     Logger.addClient(CrashlyticsLoggerClient());
   }
 }
@@ -44,11 +44,11 @@ class Logger {
     StackTrace s,
   }) {
     _clients.forEach((c) => c.onLog(
-      level: LogLevel.warning,
-      message: message,
-      e: e,
-      s: s,
-    ));
+          level: LogLevel.warning,
+          message: message,
+          e: e,
+          s: s,
+        ));
   }
 
   /// Error level logs
@@ -60,11 +60,11 @@ class Logger {
     @required StackTrace s,
   }) {
     _clients.forEach((c) => c.onLog(
-      level: LogLevel.error,
-      message: message,
-      e: e,
-      s: s,
-    ));
+          level: LogLevel.error,
+          message: message,
+          e: e,
+          s: s,
+        ));
   }
 
   static addClient(LoggerClient client) {
@@ -144,7 +144,7 @@ class CrashlyticsLoggerClient implements LoggerClient {
     dynamic e,
     StackTrace s,
   }) {
-    final instance = Crashlytics.instance;
+    final instance = FirebaseCrashlytics.instance;
     switch (level) {
       case LogLevel.debug:
         instance.log("[DEBUG] $message");

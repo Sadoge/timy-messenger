@@ -1,19 +1,14 @@
 import "package:flutter/material.dart";
-import "package:pinch_zoom_image/pinch_zoom_image.dart";
-import "package:transparent_image/transparent_image.dart";
+import "package:photo_view/photo_view.dart";
 
 class ImagePinchScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final String url = ModalRoute.of(context).settings.arguments;
     return SafeArea(
       child: GestureDetector(
-        child: PinchZoomImage(
-          image: FadeInImage.memoryNetwork(
-            image: url,
-            placeholder: kTransparentImage,
-          ),
+        child: PhotoView(
+          imageProvider: NetworkImage(url),
         ),
         onTap: () {
           Navigator.pop(context);

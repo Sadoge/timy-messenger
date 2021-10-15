@@ -263,7 +263,7 @@ class _TopicDetailsWidgetState extends State<_TopicDetailsWidget>
     return Padding(
       padding: const EdgeInsets.all(AppTheme.appMargin),
       child: Center(
-        child: FlatButton(
+        child: TextButton(
           child: Text(
             CirclesLocalizations.of(context).topicLeave,
             style: AppTheme.buttonTextStyle,
