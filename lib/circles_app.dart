@@ -22,7 +22,6 @@ import "package:circles_app/domain/redux/app_middleware.dart";
 import "package:circles_app/domain/redux/app_reducer.dart";
 import "package:circles_app/domain/redux/app_state.dart";
 import "package:circles_app/presentation/home/main_screen.dart";
-import "package:circles_app/presentation/image/file_picker_screen.dart";
 import "package:circles_app/presentation/image/image_pinch_screen.dart";
 import "package:circles_app/presentation/image/image_screen.dart";
 import "package:circles_app/presentation/login/loginscreen.dart";
@@ -161,6 +160,7 @@ class _CirclesAppState extends State<CirclesApp> {
           Routes.image: (context) {
             return ImageScreen();
           },
+          //TODO: fix file picker screen
           // Routes.imagePicker: (context) {
           //   return FilePickerScreen();
           // },
